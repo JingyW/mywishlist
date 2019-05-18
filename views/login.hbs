@@ -1,0 +1,47 @@
+<script src="/js/jquery.min.js"></script>
+<script>
+(function(d, s, id){
+   var js, fjs = d.getElementsByTagName(s)[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement(s); js.id = id;
+   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=167922013750290";
+   fjs.parentNode.insertBefore(js, fjs);
+ }(document, 'script', 'facebook-jssdk'));
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '420069992147273',
+      autoLogAppEvents : true,
+      status           : true,
+      xfbml            : true,
+      version          : 'v2.9' // or v2.8, v2.7, v2.6, v2.5, v2.4, v2.3,
+    });
+    FB.login(function(response) {
+      const accessToken = response.authResponse.accessToken;
+      let facebookID = "";
+      let username = "";
+      if (response.authResponse) {
+       FB.api('/me', function(response) {
+         username = response.name;
+         facebookID = response.id;
+         $.ajax({
+           url:'/friendList',
+           method:'post',
+           data:{
+             username:username,
+             facebookId:facebookID
+           },
+           success: function(res) {
+             window.top.location = "https://deseosccproject.herokuapp.com/"+res.mongooseId+"/wishlists"; //redirect to friendlist page
+           },
+           error: function(res) {
+             alert("error in logging")
+           }
+         })
+       })
+      } else {
+       alert('User cancelled login or did not fully authorize.');
+       window.top.location = "https://deseosccproject.herokuapp.com/" //redirect to mainpage
+      }
+    },{scope:'email,public_profile'});
+  };
+</script>
