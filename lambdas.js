@@ -12,8 +12,8 @@ function cc_login():
 
   console.log("after reading everything")
   AWS.config.update({
-  accessKeyId: "AKIAU4UEHE47JBQZKK57",
-  secretAccessKey: "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",
+  accessKeyId: "...",
+  secretAccessKey: "...",
   region:"us-east-1"
   });
   console.log("after creating docclient")
